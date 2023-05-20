@@ -4,7 +4,7 @@
 03. Description : Environment Variables
 ---------------------------------------------------------------------
 Author : Jaemin Sim
-Licence : Kyobobook
+Licence : 
 Version : 1.0
 History Management : 
     - 2023-05-20 : 초기 작성, v 1.0
