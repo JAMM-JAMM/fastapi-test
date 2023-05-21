@@ -18,6 +18,9 @@ from app.utils.dbUtils import getSwitchDbConn
 
 
 def getCustomers():
+    '''
+    TBD
+    '''
     result = list()
     snow_conn = getSwitchDbConn(p_db_name="SNOW")
     with snow_conn.cursor() as cursor:
@@ -40,6 +43,9 @@ def getCustomers():
     return result
 
 def postCustomers(p_custkey: int):
+    '''
+    TBD
+    '''
     logger.debug(f'[DEBUG] Parameter : p_custkey={p_custkey}')
     result = list()
     snow_conn = getSwitchDbConn(p_db_name="SNOW")
