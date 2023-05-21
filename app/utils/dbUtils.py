@@ -17,12 +17,11 @@ class SnowConn:
     def getDbConn(self):
         return self.conn
 
-def getSwitchDbConn(dbName):
+def getSwitchDbConn(p_db_name):
 
-    logger.debug(f'[DEBUG] DB Name : {dbName}')
+    logger.debug(f'[DEBUG] DB Name : {p_db_name}')
 
-    if dbName == 'SNOW':
+    if p_db_name == 'SNOW':
         clsDb = SnowConn()
         conn = clsDb.getDbConn()
         return conn
-

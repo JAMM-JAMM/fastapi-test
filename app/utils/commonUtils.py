@@ -9,12 +9,23 @@ Version : 1.0
 History Management : 
     - 2023-05-20 : 초기 작성, v 1.0
 '''
-from loguru import logger
+import time
 import boto3
+import functools
+from loguru import logger
 from botocore.exceptions import ClientError
 
 
-def get_secret(p_secret_name: str, p_region_name="ap-northeast-2") -> str:
+def decorate(original_func):
+    @functools.wraps(original_func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        original_func(*args, **kwargs)
+        end = time.time()
+        logger.debug('[DEBUG] Duration of time {:.5f}s'.format(end - start))
+    return wrapper
+
+def getSecret(p_secret_name: str, p_region_name="ap-northeast-2") -> str:
     '''
     Get AWS Secrets Manager Value
     :param p_secret_name (str): AWS Secrets Manager - Secret name EX) dev/snow-gc/conn
@@ -39,7 +50,7 @@ def get_secret(p_secret_name: str, p_region_name="ap-northeast-2") -> str:
             SecretId=secret_name
         )
         secret_string = get_secret_value_response['SecretString']
-        logger.debug(f'Success! Get Secret Value from AWS Secrets Manager - {secret_name}')
+        logger.debug(f'[DEBUG] Get Secret Value from AWS Secrets Manager - {secret_name}')
         return secret_string
     except ClientError as e:
-        logger.error(f'Error! Get Secret Value from AWS Secrets Manager - {e}')
+        logger.error(f'[ERROR] Get Secret Value from AWS Secrets Manager - {e}')

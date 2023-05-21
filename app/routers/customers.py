@@ -1,8 +1,7 @@
-from loguru import logger
 from fastapi import APIRouter
-from fastapi.encoders import jsonable_encoder
-from app.utils.dbUtils import getSwitchDbConn
-from app.sql.queries import customer_sql
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from app.utils.apiUtils import getCustomers, postCustomers
 
 
 router = APIRouter(
@@ -11,10 +10,9 @@ router = APIRouter(
 )
 
 @router.get('/')
-async def read_customers():
-    conn = getSwitchDbConn(dbName='SNOW')
-    cursor = conn.cursor()
-    cursor.execute(customer_sql)
-    result = cursor.fetchone()
-    print(result)
-    return list(result)
+def read_customers():
+    return getCustomers()
+
+@router.post('/{custkey}')
+def read_customers_by_custkey(custkey: int):
+    return postCustomers(p_custkey=custkey)
